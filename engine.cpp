@@ -23,10 +23,6 @@ std::vector<float> averageVector(const std::vector<std::vector<float>>& vectors)
     for (float& val : avg) {
         val /= static_cast<float>(vectors.size());
     }
-    if (avg.empty()){
-        std::cerr<<"Average vector is empty \n";
-        exit(-1);
-    }
     return avg;
 }
 float cosineSimilarity(std::vector<float> a, std::vector<float> b){
@@ -50,11 +46,15 @@ std::vector<std::vector<float>> vectorizeString(const std::string& string, std::
     std::string word;
     while ( stream >> word ) {
         std::string stripped;
-        for( char c : word ) if( std::isalnum(c) ) stripped += c ;
+        for( char c : word ) {
+            if (std::isalnum(c)){
+                stripped += c;
+            }
+        }
         word = stripped;
         auto it = wordVector.find(word);
         if (it == wordVector.end()) {
-            std::cout << "Word " << word << " not found in WordVector\n";
+            std::cerr << "Word " << word << " not found in WordVector\n";
         } else {
             const std::vector<float> &vec = it->second;
             vectorized_string.push_back(vec);
@@ -137,7 +137,7 @@ float Engine::similarityCheck(const Video& video, const Video& comparedVideo){
         std::cerr<<"A video's vectorized description is empty. \n";
         score = -1.0;
     }
-    //Check similarity of lengths
+    //Check similarity of lengths (TBD)
     //Add up all the scores
     return score/3;
 }
