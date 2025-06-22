@@ -8,9 +8,10 @@ class Engine {
 public:
     Video originalVideo;
     Video comparedVideos;
-    WordVector wordVector;
-    Engine(const Video& originalVideo, Video comparedVideos, WordVector wordVector);
-    void processVideo(const Video& video);
+    WordVector& wordVector;
+    Engine(const Video& originalVideo, const Video& comparedVideos, WordVector& wordVector);
+    void processVideo(Video& video);
+    float similarityCheck(const Video& originalVideo, const Video& comparedVideo);
 };
 
 

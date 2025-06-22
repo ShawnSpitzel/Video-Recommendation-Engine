@@ -10,6 +10,9 @@ public:
     std::string description;
     std::string title;
     std::vector<std::string> tags;
+    std::vector<std::vector<float>> vectorized_title;
+    std::vector<std::vector<float>> vectorized_description;
+    std::vector<std::vector<std::vector<float>>> vectorized_tags;
     Video(int id, int length, std::string description, std::string title, std::vector<std::string> tags);
 };
 

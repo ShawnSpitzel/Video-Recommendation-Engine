@@ -1,9 +1,15 @@
-#include <fstream>
 #include "wordvector.h"
 #include <sstream>
 #include <string>
+#include <fstream>
 #include <vector>
+#include <sys/file.h>
+#include <sys/mman.h>
+#include <unistd.h>
 
+#define FILEPATH "/Users/shawnspitzel/Video Similarity Graph/word2vec.bin"
+#define VECTOR_SIZE 300
+#define NUM_WORDS 3000000
 void WordVector::readWordVectors() {
     std::ifstream file("/Users/shawnspitzel/Video Similarity Graph/word2vec.bin", std::ios::binary);
     if (!file.is_open()) {
@@ -46,6 +52,12 @@ void WordVector::readWordVectors() {
 
         vectorSize++;
     }
+
     std::cout << "Completed reading " << vectorSize << " words!\n";
+    std::cout << "\n";
+
     file.close();
+}
+WordVector::WordVector() {
+    readWordVectors();
 }
