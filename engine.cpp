@@ -45,12 +45,10 @@ float cosineSimilarity(std::vector<float> a, std::vector<float> b){
 }
 
 std::vector<std::vector<float>> vectorizeString(const std::string& string, std::unordered_map<std::string, std::vector<float>>& wordVector){
-    //Alter to handle multiple words
     std::vector<std::vector<float>> vectorized_string;
     std::istringstream stream (string);
     std::string word;
     while ( stream >> word ) {
-
         std::string stripped;
         for( char c : word ) if( std::isalnum(c) ) stripped += c ;
         word = stripped;
@@ -59,11 +57,6 @@ std::vector<std::vector<float>> vectorizeString(const std::string& string, std::
             std::cout << "Word " << word << " not found in WordVector\n";
         } else {
             const std::vector<float> &vec = it->second;
-//            std::cout << "Vector for " << word << " (" << vec.size() << " dimensions):\n";
-//            for (float i : vec) {
-//                std::cout << i << " ";
-//            }
-//            std::cout << std::endl;
             vectorized_string.push_back(vec);
         }
     }
@@ -101,8 +94,50 @@ float Engine::similarityCheck(const Video& video, const Video& comparedVideo){
         score = -1.0;
     }
     //Check similarity of tags
+    if (!video.vectorized_tags.empty() && !comparedVideo.vectorized_tags.empty()){
+        std::vector<std::vector<float>> averagedTags1;
+        std::vector<std::vector<float>> averagedTags2;
+        for (const auto& tag : video.vectorized_tags){
+            std::vector<float> avgTagScore = averageVector(tag);
+            averagedTags1.push_back(avgTagScore);
+        }
+        for (const auto& tag : comparedVideo.vectorized_tags){
+            std::vector<float> avgTagScore = averageVector(tag);
+            averagedTags2.push_back(avgTagScore);
+        }
+        std::vector<float> avgTags1 = averageVector(averagedTags1);
+        std::vector<float> avgTags2 = averageVector(averagedTags2);
+        if (avgTags1.empty()){
+            std::cerr<<"Original video's tags is empty. \n";
+        }
+        if (avgTags2.empty()){
+            std::cerr<<"Compared video's tags is empty. \n";
+        }
+        float tag_similarity = cosineSimilarity(avgTags1, avgTags2);
+        score += tag_similarity;
+    }
+    else{
+        std::cerr<<"A video's vectorized description is empty. \n";
+        score = -1.0;
+    }
     //Check similarity of descriptions
+    if (!video.vectorized_description.empty() && !comparedVideo.vectorized_description.empty()){
+        std::vector<float> avgTitles1 = averageVector(video.vectorized_description);
+        std::vector<float> avgTitles2 = averageVector(comparedVideo.vectorized_description);
+        if (avgTitles1.empty()){
+            std::cerr<<"Original video's descripton is empty. \n";
+        }
+        if (avgTitles2.empty()){
+            std::cerr<<"Compared video's description is empty. \n";
+        }
+        float title_similarity = cosineSimilarity(avgTitles1, avgTitles2);
+        score += title_similarity;
+    }
+    else{
+        std::cerr<<"A video's vectorized description is empty. \n";
+        score = -1.0;
+    }
     //Check similarity of lengths
     //Add up all the scores
-    return score;
+    return score/3;
 }

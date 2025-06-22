@@ -3,7 +3,7 @@
 #include "video.h"
 int main(){
     Video video(1, 93, "Sushi videos!", "Top 5 sushi", {"sushi", "food", "asian", "japanese"});
-    Video video2(250, 250, "Sushi videos!", "Top 5 sushi", {"sushi", "food", "asian", "japanese"});
+    Video video2(250, 250, "Sushi videos for sushi lovers", "Top 10 sushi", {"sushi", "food", "asian", "japanese"});
     Video video3(3, 90, "Space rocket launch.", "Behind the Scenes at SpaceX!", {"space", "technology", "rockets", "exploration"});
     Video video4(4, 45, "Fitness home workout.", "10-minute Core Workout!", {"fitness", "health", "workout", "core"});
     Video video5(5, 300, "Guitar tutorial.", "Learn to Play 'Wonderwall' in 5 Minutes!", {"guitar", "tutorial", "music", "beginner"});
