@@ -2,6 +2,7 @@
 #include "engine.h"
 #include "video.h"
 int main(){
+    // Sample video's array
     Video video(1, 93, "Sushi videos!", "Top 5 sushi", {"sushi", "food", "asian", "japanese"});
     Video video2(250, 250, "Sushi videos for sushi lovers", "Top 10 sushi", {"sushi", "food", "asian", "japanese"});
     Video video3(3, 90, "Space rocket launch.", "Behind the Scenes at SpaceX!", {"space", "technology", "rockets", "exploration"});
